@@ -1,0 +1,8 @@
+spring:
+  shardingsphere:
+    datasource:
+      master:
+        type
+    masterslave:
+      slave-data-source-names: slave0
+      master-data-source-name: master
