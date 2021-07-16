@@ -1,10 +1,15 @@
 package com.example.demo.kafka.listener;
 
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.PartitionOffset;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.SendTo;
 
 /**
@@ -51,7 +56,7 @@ public class CustomerKafkaListener {
     }
 
     /**
-     * 设置手动ACK
+     * 接收sendTo信息
      *
      * @return
      */
@@ -70,5 +75,22 @@ public class CustomerKafkaListener {
     public String autoStartup(String input) {
         log.info("input value: {}", input);
         return "success";
+    }
+
+    @KafkaListener(id = "testGroup",topics = "kafka-topic2")
+    public String onMessage(String input, Acknowledgment acknowledgment) throws Exception {
+        log.info("onMessage by kafka-topic2 :{}", input);
+        try {
+            /*业务逻辑*/
+            throw new RuntimeException("消息异常，进入死信队列...");
+        } catch (Exception e) {
+            acknowledgment.acknowledge();
+            throw new Exception(e);
+        }
+    }
+
+    @KafkaListener(id = "testGroupDLT", topics = "kafka-topic2.DLT")
+    public void dltListen(String input) {
+        log.info("Received from DLT: {} " ,input);
     }
 }

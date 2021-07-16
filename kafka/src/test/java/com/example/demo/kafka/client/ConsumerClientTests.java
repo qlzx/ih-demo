@@ -34,4 +34,11 @@ public class ConsumerClientTests {
 
         Thread.sleep(3000);
     }
+
+    @Test
+    public void testDTL() throws InterruptedException {
+        kafkaTemplate.send("kafka-topic2", "hello");
+
+        Thread.sleep(3000);
+    }
 }

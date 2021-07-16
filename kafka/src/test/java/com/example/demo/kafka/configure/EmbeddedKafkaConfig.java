@@ -2,7 +2,6 @@ package com.example.demo.kafka.configure;
 
 import java.util.Map;
 
-import com.example.demo.kafka.embed.EmbeddedKafkaHolder;
 import com.example.demo.kafka.listener.CustomerKafkaListener;
 import com.example.demo.kafka.listener.handler.LogErrorHandler;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -21,6 +20,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
+import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.ProducerListener;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
@@ -93,17 +94,21 @@ public class EmbeddedKafkaConfig {
         return kafkaTemplate;
     }
 
+
     @Bean
     public ConsumerFactory<?,?> consumerFactory(EmbeddedKafkaBroker embeddedKafka){
         Map<String, Object> consumerProps = KafkaTestUtils.consumerProps("testT", "false",
             embeddedKafka);
+
 
         return new DefaultKafkaConsumerFactory<>(consumerProps);
     }
 
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Integer, String>> kafkaListenerContainerFactory(ConsumerFactory<Object,Object> consumerFactory) {
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Integer, String>> kafkaListenerContainerFactory(
+        KafkaTemplate<Object,Object> kafkaTemplate,
+        ConsumerFactory<Object,Object> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<Integer, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         factory.setConcurrency(3);
@@ -113,6 +118,15 @@ public class EmbeddedKafkaConfig {
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
         factory.getContainerProperties().setAckCount(10);
         factory.getContainerProperties().setAckTime(10000);
+        // 设置转发template
+        factory.setReplyTemplate(kafkaTemplate);
+        // 最大重试三次 (重试机制即当前consumer线程一直不提交offset，每次poll都会poll重复的数据，
+        // 直到超过{@link org.springframework.kafka.listener.FailedRecordTracker.failures})中最大失败数
+        factory.setErrorHandler(new SeekToCurrentErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate), 3));
+
+
+
+
         return factory;
     }
 
