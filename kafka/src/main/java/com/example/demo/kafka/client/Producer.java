@@ -28,7 +28,7 @@ public class Producer {
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092,127.0.0.1:9093,127.0.0.1:9094");
         // 设置生产者幂等
-        properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_DOC, true);
+        properties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);
         // 生产者重试
         properties.put(ProducerConfig.RETRIES_CONFIG, 3);
         properties.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 300);
