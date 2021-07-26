@@ -14,6 +14,7 @@
         <module>sharding</module>
         <module>sentinel</module>
         <module>async</module>
+        <module>boot-web</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
