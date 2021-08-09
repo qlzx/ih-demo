@@ -69,12 +69,12 @@ public class NIOServer {
 
                             if (key.isReadable()) {
                                 try {
-                                    SocketChannel clientChannel = (SocketChannel) key.channel();
-                                    ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-                                    // (3) 面向 Buffer
-                                    clientChannel.read(byteBuffer);
-                                    byteBuffer.flip();
-                                    System.out.println(Charset.defaultCharset().newDecoder().decode(byteBuffer)
+                                    SocketChannel channel = (SocketChannel) key.channel();
+                                    ByteBuffer b = ByteBuffer.allocate(256);
+                                    int read = channel.read(b);
+                                    System.out.println(read);
+                                    b.flip();
+                                    System.out.println(Charset.defaultCharset().newDecoder().decode(b)
                                         .toString());
                                 } finally {
                                     keyIterator.remove();
