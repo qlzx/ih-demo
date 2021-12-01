@@ -12,10 +12,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class AsyncHolder extends AbstractService{
-
+public class AsyncHolder2 extends AbstractService{
     @Autowired
-    private AsyncHolder2 asyncHolder2;
+    private AsyncHolder asyncHolder;
 
     @Async("taskExecutor")
     public String hello(){

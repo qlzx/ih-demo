@@ -17,6 +17,12 @@
         <module>boot-web</module>
         <module>validation</module>
         <module>jvm</module>
+        <module>mybatis-generator</module>
+        <module>kafka0.10</module>
+        <module>encrypt</module>
+        <module>cache</module>
+        <module>design</module>
+        <module>algorithms</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -53,6 +59,13 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.1.6.Final</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
         </dependency>
     </dependencies>
 

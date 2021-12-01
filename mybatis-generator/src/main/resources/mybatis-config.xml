@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <package name="vo"/>
+    </typeAliases>
+    <environments default="oracle">
+        <environment id="oracle">
+            <transactionManager type="JDBC"></transactionManager>
+            <!-- 数据源的配置，URL，用户名 密码 数据库 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="oracle.jdbc.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.13.39.4)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=tddb)))"/>
+                <property name="username" value="bexom_v9_test"/>
+                <property name="password" value="bexom_v9_test"/>
+            </dataSource>
+        </environment>
+    </environments>
+<!--    <mappers>
+        <mapper resource="com/sdbairui/mapper/EmpMapper.xml"/>
+    </mappers>-->
+</configuration>

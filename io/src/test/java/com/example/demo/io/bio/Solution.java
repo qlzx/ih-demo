@@ -1,5 +1,7 @@
 package com.example.demo.io.bio;
 
+import java.util.Arrays;
+
 /**
  * @author lh0
  * @date 2021/8/9
@@ -13,12 +15,20 @@ public class Solution {
         //[2,5,6]
         //3
 
-        int[] nums1= new int[]{1,2,3,0,0,0};
-        int[] nums2 = new int[]{2,5,6};
-        Solution solution = new Solution();
-        solution.merge(nums1, 3, nums2, 3);
-        System.out.println(nums1);
-
+        //int[] nums1= new int[]{1,2,3,0,0,0};
+        //int[] nums2 = new int[]{2,5,6};
+        //Solution solution = new Solution();
+        //solution.merge(nums1, 3, nums2, 3);
+        //System.out.println(nums1);
+            int[] nums = new int[]{1,2,3,4,5,6,7};
+            int[] cache = Arrays.copyOf(nums,nums.length);
+            int pos = 3;
+            for(int i=0;i<nums.length;i++){
+                nums[pos] = cache[i];
+                pos = (pos+1)%nums.length;
+            }
+        System.out.println();
+            // 3.
     }
 
     public void merge(int[] nums1, int m, int[] nums2, int n) {
