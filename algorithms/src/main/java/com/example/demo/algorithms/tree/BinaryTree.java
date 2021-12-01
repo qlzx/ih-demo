@@ -29,29 +29,77 @@ public class BinaryTree {
     }
 
     public void add(int x) {
-        Node insertNode = root;
-        while (insertNode != null) {
-            if (x <= insertNode.data) {
-                if (insertNode.left == null) {
-                    insertNode.left = new Node(x);
-                    return;
-                }else{
-                    insertNode = insertNode.left;
+        Node curr = root;
+        while (curr != null) {
+            if (x > curr.data) {
+                if (curr.right == null) {
+                    curr.right = new Node(x);
+                    break;
+                } else {
+                    curr = curr.right;
                 }
-            }else{
-                if (insertNode.right == null) {
-                    insertNode.right = new Node(x);
-                    return;
-                }else{
-                    insertNode = insertNode.right;
+            } else {
+                if (curr.left == null) {
+                    curr.left = new Node(x);
+                    break;
+                } else {
+                    curr = curr.left;
                 }
             }
         }
-
     }
 
     public boolean remove(int x) {
-        return false;
+        Node deleteNode = root;
+        Node prev = null;
+        while (deleteNode != null && deleteNode.data != x) {
+            prev = deleteNode;
+            if (deleteNode.data < x) {
+                deleteNode = deleteNode.right;
+            } else {
+                deleteNode = deleteNode.left;
+            }
+        }
+
+        if (deleteNode == null) {
+            return false;
+        }
+        // 待删除节点有两个的情况
+        if (deleteNode.left != null && deleteNode.right != null) {
+            // 找到右子树的最小节点
+            Node minNode = deleteNode.right;
+            Node pNode = deleteNode;
+            while (minNode.left != null) {
+                pNode = minNode;
+                minNode = minNode.left;
+            }
+
+            // 数据删除
+            deleteNode.data = minNode.data;
+            deleteNode = minNode;
+            prev = pNode;
+        }
+
+
+
+        // 待删除节点只有一个或者没有子节点的情况
+        Node child;
+        if (deleteNode.left != null) {
+            child = deleteNode.left;
+        } else if (deleteNode.right != null) {
+            child = deleteNode.right;
+        }else{
+            child = null;
+        }
+
+        if (prev == null) {
+            root = child;
+        } else if (prev.left == deleteNode) {
+            prev.left = child;
+        } else {
+            prev.right = child;
+        }
+        return true;
     }
 
     public Node find(int x) {
@@ -61,7 +109,7 @@ public class BinaryTree {
                 return curr;
             } else if (curr.data > x) {
                 curr = curr.left;
-            }else {
+            } else {
                 curr = curr.right;
             }
         }
@@ -74,14 +122,13 @@ public class BinaryTree {
         return list;
     }
 
-    private void iter_before(Node node,List<Node> list){
+    private void iter_before(Node node, List<Node> list) {
         if (node != null) {
             list.add(node);
             iter_before(node.left, list);
             iter_before(node.right, list);
         }
     }
-
 
     public static void main(String[] args) {
 
