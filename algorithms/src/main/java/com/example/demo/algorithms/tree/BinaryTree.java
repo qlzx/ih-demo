@@ -1,7 +1,9 @@
 package com.example.demo.algorithms.tree;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author lh0
@@ -80,15 +82,13 @@ public class BinaryTree {
             prev = pNode;
         }
 
-
-
         // 待删除节点只有一个或者没有子节点的情况
         Node child;
         if (deleteNode.left != null) {
             child = deleteNode.left;
         } else if (deleteNode.right != null) {
             child = deleteNode.right;
-        }else{
+        } else {
             child = null;
         }
 
@@ -128,6 +128,29 @@ public class BinaryTree {
             iter_before(node.left, list);
             iter_before(node.right, list);
         }
+    }
+    // parent = (i+1)/2 -1 = (i-1)/2
+    // left = (i+1)*2-1 = 2*i +1
+    // right = 2*i +2
+
+    public List<Node> iterLevel() {
+        List<Node> list = new ArrayList<>();
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            Node curr = queue.poll();
+            list.add(curr);
+
+            if (curr.left != null) {
+                queue.offer(curr.left);
+            }
+
+            if (curr.right != null) {
+                queue.offer(curr.right);
+            }
+        }
+        return list;
+
     }
 
     public static void main(String[] args) {

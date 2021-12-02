@@ -1,4 +1,4 @@
-package com.example.demo.algorithms;
+package com.example.demo.algorithms.stack;
 
 import java.util.Deque;
 import java.util.LinkedList;
