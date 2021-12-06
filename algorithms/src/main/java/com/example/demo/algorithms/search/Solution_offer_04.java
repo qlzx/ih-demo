@@ -1,4 +1,4 @@
-package com.example.demo.algorithms;
+package com.example.demo.algorithms.search;
 
 /**
  * @author lh0
