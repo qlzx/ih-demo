@@ -1,8 +1,4 @@
-package com.example.demo.algorithms;
-
-import javax.swing.tree.TreeNode;
-import java.util.LinkedList;
-import java.util.Queue;
+package com.example.demo.algorithms.tree;
 
 /**
  * @author lh0
